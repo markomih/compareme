@@ -6,6 +6,7 @@ import { InstructionService } from './services/instruction.service';
   moduleId: module.id,
   selector: 'my-app',
   templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent  { 
   name = 'Angular'; 
@@ -28,20 +29,20 @@ export class AppComponent  {
   }
 
   uploadFile(event: Event): void{
-    if (event.currentTarget.files) {
-      var file = event.currentTarget.files[0];
+    // if (event.currentTarget.files) {
+    //   var file = event.currentTarget.files[0];
 
-      var reader  = new FileReader();
+    //   var reader  = new FileReader();
 
-      var is = this;
-      reader.addEventListener("load", function () {
-        // console.log(reader.result);
-        is.instructionService.save(reader.result);
-      }, false);
+    //   var is = this;
+    //   reader.addEventListener("load", function () {
+    //     // console.log(reader.result);
+    //     is.instructionService.save(reader.result);
+    //   }, false);
 
-      if (file) reader.readAsDataURL(file);
+    //   if (file) reader.readAsDataURL(file);
 
-    }
+    // }
   }
   
 }
