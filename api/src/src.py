@@ -4,13 +4,14 @@ from flask.ext.cors import CORS
 from werkzeug.utils import secure_filename
 
 from conf import allowed_file, ALLOWED_ORIGIN, get_file_path
+from processing.DataProcessing import DataProcessing
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = "Content-Type"
 app.config['CORS_RESOURCES'] = {r"/api/*": {"origins": ALLOWED_ORIGIN}}
 
 CORS(app,
-     resources={r"/*": {"origins": "http://localhost:4200"}},
+     resources={r"/*": {"origins": ALLOWED_ORIGIN}},
      headers="Origin, X-Requested-With, Content-Type, Accept",
      supports_credentials=True
      )
@@ -28,7 +29,8 @@ def upload():
             filename = secure_filename(file.filename)
             path = get_file_path(filename)
             file.save(path)
-            return 'succeed'
+            s = DataProcessing.get_data(path)
+            return s
     return jsonify('Not supported')
 
 

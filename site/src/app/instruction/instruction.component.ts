@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer } from '@angular/core';
 import { InstructionService } from '../shared/instruction.service';
-import { FileUploader } from 'ng2-file-upload';
+import { FileUploader, FileItem } from 'ng2-file-upload';
+
+import { Table } from '../shared/table';
 
 @Component({
   selector: 'app-instruction',
@@ -10,11 +12,13 @@ import { FileUploader } from 'ng2-file-upload';
 export class InstructionComponent implements OnInit {
 
   name = 'Angular'; 
-  public uploader:FileUploader;
+  table: Table;
 
+  public uploader:FileUploader;
   constructor(private instructionService: InstructionService){}
 
   ngOnInit() {
+    this.table = new Table();
     this.uploader = new FileUploader({url:'http://localhost:5000/upload'});
   }
 
@@ -24,6 +28,7 @@ export class InstructionComponent implements OnInit {
     if (code === "enter") {
       if (command == "load data") {
         console.log("LOAD DATA");
+        document.getElementById("file-load-data").click();
       }
     } else if (code == "space") {
       console.log("SPACE");
@@ -39,6 +44,27 @@ export class InstructionComponent implements OnInit {
       //   item.upload();
       // });
       this.uploader.uploadAll();
+      var self = this;
+      this.uploader.onCompleteItem = (item: FileItem, response:string, status:number, headers:any) => {
+            let data = JSON.parse(response);
+           
+            if (status == 200 && data.success) {
+              
+              let dataObject = JSON.parse(data.data);
+              for (var columnLabel in dataObject) {
+                var column = dataObject[columnLabel];
+                var columnValues: string[] = [];
+
+                for (var keyI in column){
+                  columnValues.push(column[keyI].toString());
+                }
+                self.table.addTableColumn(columnLabel, columnValues);
+              }
+              self.table.print();
+            } else {
+              console.error("MRRRRRK");
+            }
+        };
     } else{
       console.log(event.currentTarget);
       this.instructionService.save("MRRRRRK").then(r => console.log(r));

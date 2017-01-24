@@ -9,6 +9,7 @@
     #command 
     type="text" 
     id="command-field" 
+    accept="application/vnd.ms-excel"
     (keyup)="instruction($event, command.value);"
     >
 <br/>
@@ -16,7 +17,9 @@
 <div class="form-group">
     <label for="single">Single</label>
     <input 
+        id="file-load-data"
         type="file"
+        hidden
         ng2FileSelect [uploader]="uploader" 
         (change)="uploadFile($event)"
         />         

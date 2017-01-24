@@ -10,12 +10,14 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { AppComponent } from './app.component';
 import { InstructionComponent } from './instruction/instruction.component';
 import { InstructionService } from './shared/instruction.service';
+import { TableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InstructionComponent,
-    FileSelectDirective
+    FileSelectDirective,
+    TableComponent
   ],
   imports: [
     BrowserModule,
