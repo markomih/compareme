@@ -5,14 +5,17 @@ import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { InstructionComponent } from './instruction/instruction.component';
+import { InstructionService } from './shared/instruction.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InstructionComponent
+    InstructionComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,7 @@ import { InstructionComponent } from './instruction/instruction.component';
     HttpModule,
     MaterialModule.forRoot()
   ],
-  providers: [],
+  providers: [InstructionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

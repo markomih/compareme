@@ -1,38 +1,35 @@
-import os
+from flask import Flask, jsonify
+from flask import request
+from flask.ext.cors import CORS
+from werkzeug.utils import secure_filename
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify
-from datetime import timedelta
-from flask import make_response, request, current_app
-from functools import update_wrapper
-from flask.ext.cors import CORS, cross_origin
+from conf import allowed_file, ALLOWED_ORIGIN, get_file_path
 
-# Initialize the Flask application
 app = Flask(__name__)
-# CORS(app, resources=r'*', headers='Content-Type')
-# CORS(app, resources=r'/api/*', headers='Content-Type')
 app.config['CORS_HEADERS'] = "Content-Type"
-app.config['CORS_RESOURCES'] = {r"/api/*": {"origins": "*"}}
-cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, headers="Content-Type")
+app.config['CORS_RESOURCES'] = {r"/api/*": {"origins": ALLOWED_ORIGIN}}
 
+CORS(app,
+     resources={r"/*": {"origins": "http://localhost:4200"}},
+     headers="Origin, X-Requested-With, Content-Type, Accept",
+     supports_credentials=True
+     )
 
-# Route that will process the file upload
-# @app.route('/upload/<data>')
-# @crossdomain(origin='*')
-# def upload(data: str):
-#     # Get the name of the uploaded file
-#     # file = request.files['file']
-#     print(str(data))
-#     return jsonify(foo='cross domain ftw')
-#
 
 @app.route('/upload', methods=['POST'])
-# @cross_origin(origins='http://localhost:3000')
-# @crossdomain(origin='*')
-def uploadd():
-    # Get the name of the uploaded file
-    # file = request.files['file']
-    print(str("fsdfsd"))
-    return jsonify(foo='cross domain ftw')
+def upload():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return 'Invalid credentials'
+        file = request.files['file']
+        if file.filename == '':
+            return 'Invalid credentials'
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            path = get_file_path(filename)
+            file.save(path)
+            return 'succeed'
+    return jsonify('Not supported')
 
 
 @app.route('/')

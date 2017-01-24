@@ -1,3 +1,23 @@
-<p>
-  instruction works!
-</p>
+<!--<md-card>
+  <button md-button>FLAT</button>
+  <button md-raised-button md-tooltip="This is a tooltip!">RAISED</button>
+  <button md-raised-button color="primary">PRIMARY RAISED</button>
+  <button md-raised-button color="accent">ACCENT RAISED</button>
+</md-card>-->
+
+<input 
+    #command 
+    type="text" 
+    id="command-field" 
+    (keyup)="instruction($event, command.value);"
+    >
+<br/>
+
+<div class="form-group">
+    <label for="single">Single</label>
+    <input 
+        type="file"
+        ng2FileSelect [uploader]="uploader" 
+        (change)="uploadFile($event)"
+        />         
+</div>
