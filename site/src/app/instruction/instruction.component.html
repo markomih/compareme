@@ -8,6 +8,6 @@
 <input type="text" id="command-field" accept="text/csv, .csv" 
     #command (keyup)="instruction($event, command.value);"/>
 
-<input id="file-load-data" type="file" ngf-accept="'.csv'" accept=".csv" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)"/>         
+<input id="file-load-data" type="file" hidden ngf-accept="'.csv'" accept=".csv" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)"/>         
 
 <app-table></app-table>
