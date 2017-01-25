@@ -1,3 +1,9 @@
-<p>
-  table works!
-</p>
+<div *ngIf="tableService.table">
+<table>
+    <tr *ngFor="let column of tableService.table.columns">
+      <td><b>{{column[0]}}</b></td>
+      <td *ngFor="let field of column[1]">{{ field }}</td>
+    </tr>
+    <tr>
+</table>
+</div>

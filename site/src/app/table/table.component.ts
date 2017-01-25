@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { TableService } from '../shared/table.service';
+import { Table } from '../shared/table';
 
 @Component({
   selector: 'app-table',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  constructor() { }
+  constructor(private tableService: TableService) { }
 
   ngOnInit() {
   }

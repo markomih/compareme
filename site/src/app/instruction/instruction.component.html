@@ -5,22 +5,9 @@
   <button md-raised-button color="accent">ACCENT RAISED</button>
 </md-card>-->
 
-<input 
-    #command 
-    type="text" 
-    id="command-field" 
-    accept="application/vnd.ms-excel"
-    (keyup)="instruction($event, command.value);"
-    >
-<br/>
+<input type="text" id="command-field" accept="text/csv, .csv" 
+    #command (keyup)="instruction($event, command.value);"/>
 
-<div class="form-group">
-    <label for="single">Single</label>
-    <input 
-        id="file-load-data"
-        type="file"
-        hidden
-        ng2FileSelect [uploader]="uploader" 
-        (change)="uploadFile($event)"
-        />         
-</div>
+<input id="file-load-data" type="file" ngf-accept="'.csv'" accept=".csv" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)"/>         
+
+<app-table></app-table>

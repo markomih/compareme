@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { MaterialModule } from '@angular/material';
-import 'hammerjs';
+
 import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 import { AppComponent } from './app.component';
 import { InstructionComponent } from './instruction/instruction.component';
-import { InstructionService } from './shared/instruction.service';
 import { TableComponent } from './table/table.component';
+
+import { InstructionService } from './shared/instruction.service';
+import { TableService } from './shared/table.service';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import { TableComponent } from './table/table.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    MaterialModule.forRoot()
   ],
-  providers: [InstructionService],
+  providers: [
+    TableService,
+    InstructionService,
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

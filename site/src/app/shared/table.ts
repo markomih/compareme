@@ -15,6 +15,9 @@ export class Table {
         this.columns.push([label, values]);
     }
     
+    size(): number {
+        return this.columns.length;    
+    }
     print(){
         this.columns.forEach(element => {
             console.log(element);
