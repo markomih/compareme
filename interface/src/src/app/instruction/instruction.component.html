@@ -1,0 +1,13 @@
+<!--<md-card>
+  <button md-button>FLAT</button>
+  <button md-raised-button md-tooltip="This is a tooltip!">RAISED</button>
+  <button md-raised-button color="primary">PRIMARY RAISED</button>
+  <button md-raised-button color="accent">ACCENT RAISED</button>
+</md-card>-->
+
+<input type="text" id="command-field" accept="text/csv, .csv" 
+    #command (keyup)="instruction($event, command.value);"/>
+
+<input id="file-load-data" type="file" hidden ngf-accept="'.csv'" accept=".csv" ng2FileSelect [uploader]="uploader" (change)="uploadFile($event)"/>         
+
+<app-table></app-table>

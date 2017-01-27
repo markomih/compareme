@@ -1,0 +1,67 @@
+<!---->
+<header>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">CompareMe</a>
+      <ul class="right hide-on-med-and-down">
+        <!--{% if session.logged_in %}-->
+        <a class="waves-effect waves-light btn" (click)="logout()">Logout</a>
+        <!--{% else %}-->
+        <a class="waves-effect waves-light btn" (click)="openModal('login')">Login</a>
+        <a class="waves-effect waves-light btn" (click)="openModal('register')">Register</a>
+        <!--{% endif %}-->
+      </ul>
+
+      <!--<ul id="nav-mobile" class="side-nav">-->
+        <!--&lt;!&ndash;{% if session.logged_in %}&ndash;&gt;-->
+        <!--<a class="waves-effect waves-light btn" href="/logout">Logout</a>-->
+        <!--&lt;!&ndash;{% else %}&ndash;&gt;-->
+        <!--<a class="waves-effect waves-light btn" href="#modal-login">Login</a>-->
+        <!--<a class="waves-effect waves-light btn" href="#modal-register">Register</a>-->
+        <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
+      <!--</ul>-->
+      <!--<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>-->
+    </div>
+  </nav>
+
+  <!-- Modal Trigger -->
+  <!--<a class="waves-effect waves-light btn modal-trigger" (click)="openModal()">Modal</a>-->
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal" materialize="modal"
+       [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+    <div class="modal-content" (keydown.esc)="closeModal()">
+      <div class="row">
+        <form class="col s12" action="/login" method="POST">
+          <div class="row">
+            <div class="input-field col s4" *ngIf="register">
+              <input id="name" name="name" type="text" class="validate" required #name>
+              <label for="email" data-error="wrong">Name</label>
+            </div>
+            <div class="input-field col {{register?'s4':'s6'}}">
+              <input id="email" name="email" type="email" class="validate" required #email>
+              <label for="email" data-error="wrong">Email</label>
+            </div>
+            <div class="input-field col {{register?'s4':'s6'}}">
+              <input id="password" type="password" name="password" class="validate" required #password>
+              <label for="password">Password</label>
+            </div>
+            <div class="row">
+              <div class="input-field col s2 offset-s3">
+                <button class="btn waves-effect waves-light" type="submit" name="action" (click)="checkCredentials(name.value, email.value, password.value)">Submit
+                  <i class="material-icons right">send</i>
+                </button>
+              </div>
+              <div class="input-field col s2 offset-s2">
+                <button class="btn waves-effect waves-dark red" name="action" (click)="closeModal()">Cancel
+                  <i class="material-icons right">cancel</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<app-instruction></app-instruction>
