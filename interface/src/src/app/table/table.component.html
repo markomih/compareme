@@ -1,8 +1,9 @@
+
 <div *ngIf="tableService.table">
 <table>
     <tr *ngFor="let column of tableService.table.columns">
-      <td><b>{{column[0]}}</b></td>
-      <td *ngFor="let field of column[1]">{{ field }}</td>
+      <td class="{{tableService.getClass(column.label)}}"><b>{{column.label}}</b></td>
+      <td *ngFor="let field of column.values">{{ field }}</td>
     </tr>
     <tr>
 </table>

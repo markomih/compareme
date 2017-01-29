@@ -2,13 +2,10 @@ import {Injectable} from '@angular/core';
 import {Http, Headers} from "@angular/http";
 import {User} from "./user";
 
-// TODO: add third field in the form
-// TODO: add tag required
-// TODO: test register
-// TODO: test login
-// TODO: test logout
-// TODO: print name somewhere
-
+// TODO: apply
+// TODO: predict
+// TODO: plot
+// TODO: datasets
 
 @Injectable()
 export class UserService {
@@ -18,20 +15,9 @@ export class UserService {
   constructor(private http: Http) {
   }
 
-  register(user: User): Promise<boolean> {
+  register(user: User): Promise<[boolean, string]> {
     let url = this.domain + "/api/users/register";
     let data = JSON.stringify(user);
-    return this.post(url, data).then( (res) => {
-      if (JSON.parse(res).data){
-        this.user = user;
-        return true
-      } else {
-        return false;
-      }
-    });
-  }
-
-  private post(url: string, data: string): Promise<string> {
     let headers = new Headers({
       'Content-Type': 'application/json'
     });
@@ -39,7 +25,42 @@ export class UserService {
     return this.http
       .post(url, data, { headers: headers })
       .toPromise()
-      .then(res => res.json().data)
+      .then( (res) => {
+        let data = res.json();
+        return [data.success, data.data];
+      })
+      .catch(UserService.handleError);
+  }
+  login(user: User): Promise<[boolean, string]> {
+    let url = this.domain + "/api/users/login";
+    let data = JSON.stringify(user);
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, data, { headers: headers })
+      .toPromise()
+      .then( (res) => {
+        let data = res.json();
+        return [data.success, data.data];
+      })
+      .catch(UserService.handleError);
+  }
+
+  logout(): Promise<boolean> {
+    let url = this.domain + "/api/users/logout";
+    let headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, "", { headers: headers })
+      .toPromise()
+      .then( (res) => {
+        let data = res.json();
+        return data.success && data.data;
+      })
       .catch(UserService.handleError);
   }
 

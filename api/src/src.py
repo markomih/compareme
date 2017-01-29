@@ -1,8 +1,9 @@
-from flask import Flask, jsonify, abort, request, session
+from functools import wraps
+
+from flask import Flask, jsonify, request, session
 from flask import Response
 from flask.ext.cors import CORS
 from werkzeug.utils import secure_filename
-from functools import wraps
 
 from conf import allowed_file, ALLOWED_ORIGIN, get_file_path, SECRET_KEY
 from processing.DataProcessing import DataProcessing
@@ -32,14 +33,16 @@ def register():
     password = request.json.get('password')
 
     if name is None or password is None or email is None:
-        abort(400)  # missing arguments
+        return parse_json("missing arguments", False)
+        # abort(400)  # missing arguments
     if UserService.does_exist(email):
-        abort(400)  # existing user
+        return parse_json("existing user", False)
+        # abort(400)  # existing user
 
     user = UserService.create(User(name, email, password, []))
     session['api_session_token'] = UserService.generate_auth_token()
 
-    return parse_json(user.get_dict(False))
+    return parse_json("successfully registered", True)
 
 
 @app.route("/api/users/login", methods=["POST"])
@@ -52,9 +55,12 @@ def login():
         user = UserService.get(email)
         session['user'] = user.get_dict(False)
         session['api_session_token'] = UserService.generate_auth_token()
-    return parse_json(True)
+        return parse_json(True)
+    else:
+        return parse_json(False)
 
 
+@validate_json
 @app.route("/api/users/logout", methods=["POST"])
 def logout():
     """ Logout """
@@ -63,7 +69,6 @@ def logout():
     return parse_json(True)
 
 
-# @validate_json
 @app.route('/upload', methods=['POST'])
 def upload():
     if request.method == 'POST':
@@ -80,6 +85,16 @@ def upload():
             return s
     return jsonify('Not supported')
 
+@app.route('/classifier/apply/svm', methods=['POST'])
+def apply_svm():
+    print(request.json)
+    table_id = request.json.get('table_id')
+    removed_labels = request.json.get('removed_labels')
+    class_label = request.json.get('class_label')
+
+    print(table_id, removed_labels, class_label)
+
+    return jsonify('MRRK')
 
 @validate_json
 @app.route('/', methods=['POST'])

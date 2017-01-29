@@ -1,32 +1,76 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Headers, Http, Response} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
+import {InstructionHistory} from "./instruction-history";
 
 @Injectable()
 export class InstructionService {
-	private instructionUrl = 'http://localhost:5000/upload';
+  public instructionUrl = 'http://localhost:5000/upload';
+  public instructionHistory: InstructionHistory;
 
-	constructor(private http: Http){}
+  constructor(private http: Http) {
+    this.instructionHistory = new InstructionHistory();
+  }
 
-	save(data: string): Promise<any> {
-		return this.post(data);
-	}
+  static parseParameters(parameterList: string): string[] {
+    let pars: string[] = parameterList.slice(parameterList.indexOf(" ") + 1).split(" ");
+    let parameters: string[] = [];
 
-	private post(data: string): Promise<any> {
-		let headers = new Headers({
-				'Content-Type': 'text/plain'
-		});
+    let inside = false;
+    let pom: string = "";
+    for (let i = 0; i < pars.length; i++) {
+      if (pars[i].indexOf('\'') > -1) {
+        if (!inside) {
+          pom = pars[i].replace('\'', '') + ' ';
+        }
+        else {
+          pom = pom.concat(pars[i].replace('\'', ''));
+          parameters.push(pom);
+        }
+        inside = !inside;
+      } else if (inside) {
+        pom = pom.concat(pars[i].replace('\'', '')) + ' ';
+      } else {
+        parameters.push(pars[i]);
+      }
+    }
+    return parameters;
+  }
 
-		return this.http
-			.post(this.instructionUrl, data, { headers: headers })
-			.toPromise()
-			.then(res => res.json().data)
-			.catch(InstructionService.handleError);
-	}
+  private static handleError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
 
-	private static handleError(error: any): Promise<any> {
-		console.error('An error occurred', error);
-		return Promise.reject(error.message || error);
-	}
+  isEmptyHistory():boolean {
+    return this.instructionHistory.instructionList.length > 0;
+  }
+  getHistory(): string[]{
+    return this.instructionHistory.instructionList;
+  }
+  isPointer(i:number):boolean{
+    return this.instructionHistory.pointer === i;
+  }
+  getCurrentInstruction(): string {
+    return this.instructionHistory.instructionList[this.instructionHistory.pointer];
+  }
+
+  addInstruction(instruction: string) {
+    if (this.instructionHistory.pointer === -1) this.instructionHistory.pointer = 0;
+
+    this.instructionHistory.instructionList.push(instruction);
+  }
+
+  setNextInstruction() {
+    if (this.instructionHistory.pointer < this.instructionHistory.instructionList.length - 1) {
+      this.instructionHistory.pointer += 1;
+    }
+  }
+
+  setPrevInstruction() {
+    if (this.instructionHistory.pointer > 0) {
+      this.instructionHistory.pointer -= 1;
+    }
+  }
 }

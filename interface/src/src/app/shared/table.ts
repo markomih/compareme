@@ -1,26 +1,45 @@
-// export class TableColumn {
-//     constructor(public label:string, public data:Array<string>) {
-
-//     }
-// }
 export class Table {
-    public columns:Array<[string, string[]]>;
-    
-    
-    constructor(){
-        this.columns = Array<[string, string[]]>();
-    }
-    
-    addTableColumn(label: string, values: string[]): void {
-        this.columns.push([label, values]);
-    }
-    
-    size(): number {
-        return this.columns.length;    
-    }
-    print(){
-        this.columns.forEach(element => {
-            console.log(element);
-        });
-    }
+  public id: number;
+  public columns: Array<column>;
+  public removedLabels: string[];
+  public classLabel: string;
+
+
+  constructor(id: number) {
+    this.id = id;
+    this.columns = [];
+    this.removedLabels = [];
+    this.classLabel = "";
+  }
+
+  addTableColumn(label: string, values: string[]): void {
+    this.columns.push({label: label, values: values});
+  }
+
+
+  size(): number {
+    return this.columns.length;
+  }
+
+  print() {
+    this.columns.forEach(element => {
+      console.log(element.label);
+      element.values.forEach(value =>{
+        console.log(value);
+      })
+    });
+  }
+
+  stringify():string{
+    let s = {
+      'table_id':this.id,
+      'removed_labels':this.removedLabels,
+      'class_label':this.classLabel
+    };
+    return JSON.stringify(s);
+  }
+}
+interface column {
+  label: string;
+  values: string[];
 }

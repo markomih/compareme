@@ -16,7 +16,8 @@ class DataProcessing:
 
     @validate_json
     def get_data(self) -> str:
-        return parse_json(self.ret_json_data)
+        s = parse_json({'columns': self.ret_json_data, 'table_id': 1})
+        return s
 
     @staticmethod
     @validate_json
@@ -24,5 +25,6 @@ class DataProcessing:
         data = pd.read_csv(file_path)
         ret_data = pd.concat([data.head(DataProcessing.N), data.tail(DataProcessing.N)])
         json_data = ret_data.to_json()
-
-        return parse_json(json_data)
+        s = parse_json({'columns': ret_data.to_json(), 'table_id': 1})
+        return s
+        # return parse_json(json_data)

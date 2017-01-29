@@ -14,6 +14,10 @@ import {TableComponent} from './table/table.component';
 import {InstructionService} from './shared/instruction.service';
 import {TableService} from './shared/table.service';
 import {UserService} from "./shared/user.service";
+import { InstructionLogComponent } from './instruction-log/instruction-log.component';
+import { DatabaseListComponent } from './database-list/database-list.component';
+import { ScoreComponent } from './score/score.component';
+import {ScoreService} from "./score.service";
 
 @NgModule({
   declarations: [
@@ -22,6 +26,9 @@ import {UserService} from "./shared/user.service";
     InstructionComponent,
     FileSelectDirective,
     TableComponent,
+    InstructionLogComponent,
+    DatabaseListComponent,
+    ScoreComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +38,8 @@ import {UserService} from "./shared/user.service";
   providers: [
     TableService,
     InstructionService,
-    UserService
+    UserService,
+    ScoreService
   ],
   bootstrap: [AppComponent]
 })
