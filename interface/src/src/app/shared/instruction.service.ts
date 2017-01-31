@@ -14,8 +14,9 @@ export class InstructionService {
   }
 
   static parseParameters(parameterList: string): string[] {
-    let pars: string[] = parameterList.slice(parameterList.indexOf(" ") + 1).split(" ");
-    let parameters: string[] = [];
+    parameterList = parameterList.trim();
+    let pars: string[] = parameterList.split(" ");
+    var parameters: string[] = [];
 
     let inside = false;
     let pom: string = "";
@@ -26,13 +27,13 @@ export class InstructionService {
         }
         else {
           pom = pom.concat(pars[i].replace('\'', ''));
-          parameters.push(pom);
+          parameters.push(pom.trim());
         }
         inside = !inside;
       } else if (inside) {
         pom = pom.concat(pars[i].replace('\'', '')) + ' ';
       } else {
-        parameters.push(pars[i]);
+        parameters.push(pars[i].trim());
       }
     }
     return parameters;

@@ -45,3 +45,4 @@ import {ScoreService} from "./score.service";
 })
 export class AppModule {
 }
+

@@ -1,20 +1,19 @@
-<!---->
 <header>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">CompareMe</a>
       <ul class="right hide-on-med-and-down">
-        <a class="waves-effect waves-light btn" (click)="logout()" *ngIf="isValidUser">Logout</a>
-        <a class="waves-effect waves-light btn" (click)="openModal('login')" *ngIf="!isValidUser">Login</a>
-        <a class="waves-effect waves-light btn" (click)="openModal('register')" *ngIf="!isValidUser">Register</a>
+        <a class="waves-effect waves-light btn" (click)="logout()" *ngIf="userService.user.token">Logout</a>
+        <a class="waves-effect waves-light btn" (click)="openModal(); register = false" *ngIf="!userService.user.token">Login</a>
+        <a class="waves-effect waves-light btn" (click)="openModal(); register = true" *ngIf="!userService.user.token">Register</a>
       </ul>
 
       <!--<ul id="nav-mobile" class="side-nav">-->
-        <!--&lt;!&ndash;{% if session.logged_in %}&ndash;&gt;-->
-        <!--<a class="waves-effect waves-light btn" href="/logout">Logout</a>-->
-        <!--&lt;!&ndash;{% else %}&ndash;&gt;-->
-        <!--<a class="waves-effect waves-light btn" href="#modal-login">Login</a>-->
-        <!--<a class="waves-effect waves-light btn" href="#modal-register">Register</a>-->
-        <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
+      <!--&lt;!&ndash;{% if session.logged_in %}&ndash;&gt;-->
+      <!--<a class="waves-effect waves-light btn" href="/logout">Logout</a>-->
+      <!--&lt;!&ndash;{% else %}&ndash;&gt;-->
+      <!--<a class="waves-effect waves-light btn" href="#modal-login">Login</a>-->
+      <!--<a class="waves-effect waves-light btn" href="#modal-register">Register</a>-->
+      <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
       <!--</ul>-->
       <!--<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>-->
     </div>
@@ -27,28 +26,28 @@
         <form class="col s12" action="/login" method="POST">
           <div class="row">
             <div class="input-field col s4" *ngIf="register">
-              <input id="name" [(ngModel)]="user.name" name="name" type="text" class="validate" required>
+              <input id="name" [(ngModel)]="userService.user.name" name="name" type="text" class="validate" required>
               <label for="name" data-error="wrong">Name</label>
             </div>
             <div class="input-field col {{register?'s4':'s6'}}">
-              <input id="email" [(ngModel)]="user.email" name="email" type="email" class="validate" required>
+              <input id="email" [(ngModel)]="userService.user.email" name="email" type="email" class="validate"
+                     required>
               <label for="email" data-error="wrong">Email</label>
             </div>
             <div class="input-field col {{register?'s4':'s6'}}">
-              <input id="password" [(ngModel)]="user.password" type="password" name="password" class="validate" required>
+              <input id="password" [(ngModel)]="userService.user.password" type="password" name="password"
+                     class="validate" required>
               <label for="password">Password</label>
             </div>
             <div class="row">
               <div class="input-field col s2 offset-s3">
-                <button class="btn waves-effect waves-light" type="submit" name="action"
-                        (click)="checkCredentials()"
-                >Submit
-                  <i class="material-icons right">send</i>
+                <button class="btn waves-effect waves-light" type="submit" name="action" (click)="checkCredentials()">
+                  Submit<i class="material-icons right">send</i>
                 </button>
               </div>
               <div class="input-field col s2 offset-s2">
-                <button class="btn waves-effect waves-dark red" name="action" (click)="closeModal()">Cancel
-                  <i class="material-icons right">cancel</i>
+                <button class="btn waves-effect waves-dark red" name="action" (click)="closeModal()">
+                  Cancel<i class="material-icons right">cancel</i>
                 </button>
               </div>
             </div>
@@ -65,16 +64,28 @@
     </div>
   </div>
 </header>
-<!--<div *ngIf="isValidUser">-->
-<div class="row flex-s">
-  <div class="col s12 m12 l2 box-message-log">
-    <app-instruction-log></app-instruction-log>
+<p class="red" *ngIf="userService.user.token === ''">
+  prazan
+</p>
+<p class="blue" *ngIf="userService.user.token !== ''">
+  pun <b>{{userService.user.token}}</b>
+</p>
+
+<p class="green" *ngIf="!userService.user.token">
+  null <b>{{userService.user.token}}</b>
+</p>
+<main>
+  <div *ngIf="userService.user.token">
+    <div class="row flex-s">
+      <div class="col s12 m12 l2 box-message-log">
+        <app-instruction-log></app-instruction-log>
+      </div>
+      <div class="col s12 m12 l8 box-instruction">
+        <app-instruction></app-instruction>
+      </div>
+      <div class="col s12 m12 l2 box-databases">
+        <app-database-list></app-database-list>
+      </div>
+    </div>
   </div>
-  <div class="col s12 m12 l8 box-instruction">
-    <app-instruction></app-instruction>
-  </div>
-  <div class="col s12 m12 l2 box-databases">
-    <app-database-list></app-database-list>
-  </div>
-</div>
-<!--</div>-->
+</main>

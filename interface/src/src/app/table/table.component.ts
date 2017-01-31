@@ -9,7 +9,7 @@ import { Table } from '../shared/table';
 })
 export class TableComponent implements OnInit {
 
-  constructor(private tableService: TableService) { }
+  constructor(public tableService: TableService) { }
 
   ngOnInit() {
   }

@@ -1,21 +1,19 @@
 export class Table {
-  public id: number;
-  public columns: Array<column>;
-  public removedLabels: string[];
-  public classLabel: string;
+  public id: string;
+  public columns: Array<column> = [];
+  public removedLabels: string[] = [];
+  public classLabel: string = null;
+  public tableName:string = null;
+  public classifiers:string[];
 
-
-  constructor(id: number) {
+  constructor(id: string, tableName:string) {
     this.id = id;
-    this.columns = [];
-    this.removedLabels = [];
-    this.classLabel = "";
+    this.tableName = tableName;
   }
 
   addTableColumn(label: string, values: string[]): void {
     this.columns.push({label: label, values: values});
   }
-
 
   size(): number {
     return this.columns.length;

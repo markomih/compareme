@@ -1,9 +1,6 @@
 import {Component, EventEmitter, OnInit} from '@angular/core';
 import {MaterializeAction} from 'angular2-materialize';
-import {register} from "ts-node/dist";
 import {UserService} from "./shared/user.service";
-import {User} from "./shared/user";
-import {stat} from "fs";
 
 
 @Component({
@@ -15,25 +12,26 @@ export class AppComponent implements OnInit {
   title: string;
   modalActions: EventEmitter<string|MaterializeAction>;
   register: boolean;
-  user: User;
-  isValidUser: boolean;
   message: string = "";
 
-  constructor(private userService: UserService) {
+  constructor(public userService: UserService) {
   }
 
   ngOnInit(): void {
     this.title = 'app works!';
-    this.register = true;
     this.modalActions = new EventEmitter<string|MaterializeAction>();
-    this.user = new User("","","");
-    this.isValidUser = false;
     this.message = "";
+    if (this.userService.user.token){
+      this.userService.isLogged().then(res =>
+      {
+        this.register = res
+      });
+    } else {
+      this.register = false;
+    }
   }
 
-  openModal(type: string) {
-    console.log(type);
-    this.register = type === 'register';
+  openModal() {
     this.modalActions.emit({action: "modal", params: ['open']});
   }
   closeModal() {
@@ -42,30 +40,26 @@ export class AppComponent implements OnInit {
   }
   checkCredentials() {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    let emailTest = re.test(this.user.email);
-    if (register && this.user.name != "" && this.user.email != "" && this.user.password != "" && emailTest) {
-      this.userService.register(this.user).then((status:[boolean, string]) =>{
-        this.changeSession(status[0], status[1]);
-      });
-    } else if (this.user.email != "" && this.user.password != "" && emailTest){
-      this.userService.login(this.user).then((status:[boolean, string])=>{
-        this.changeSession(status[0], 'Wrong credentials!');
-      });
+    let emailTest = re.test(this.userService.user.email);
+    if (this.register && this.userService.user.name != "" && this.userService.user.email != "" && this.userService.user.password != "" && emailTest) {
+      this.userService.register(this.userService.user).then(res=>this.printMessage(res));
+    } else if (this.userService.user.email != "" && this.userService.user.password != "" && emailTest){
+      this.userService.login(this.userService.user).then(res=>this.printMessage(res));
     }
   }
-  changeSession(status, message){
+
+  printMessage(status){
     if(status){
       this.closeModal();
       this.message = "";
+      this.userService.updateUserView();
     } else {
-      this.message = message;
+      this.message = "Invalid credentials";
     }
-    this.isValidUser = status;
   }
+
   logout() {
-    this.userService.logout().then((status: boolean)=>{
-      this.isValidUser = !status;
-    })
+    this.userService.logout();
   }
 }
 
