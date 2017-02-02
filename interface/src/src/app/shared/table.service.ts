@@ -120,9 +120,10 @@ export class TableService {
 
   saveTable(dataObject) {
     let dataColumns = JSON.parse(dataObject.data.columns);
-    let table: Table = new Table(dataObject.data.table_id, dataObject.data.name);
-    table.classifiers = dataObject.data.classifiers;
+    this.table = new Table(dataObject.data.table_id, dataObject.data.name);
 
+    this.table.classifiers = dataObject.data.classifiers;
+    this.table.columns = [];
     for (let columnLabel in dataColumns) {
       let column = dataColumns[columnLabel];
       let columnValues: string[] = [];
@@ -130,9 +131,8 @@ export class TableService {
       for (let keyI in column) {
         columnValues.push(column[keyI].toString());
       }
-      table.addTableColumn(columnLabel, columnValues);
+      this.table.addTableColumn(columnLabel, columnValues);
     }
-    this.table = table;
   }
 
   private static handleError(error: any): Promise<any> {

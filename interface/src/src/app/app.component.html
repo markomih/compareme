@@ -1,10 +1,10 @@
 <header>
-  <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">CompareMe</a>
+  <nav class="grey darken-3" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">Classifiers</a>
       <ul class="right hide-on-med-and-down">
-        <a class="waves-effect waves-light btn" (click)="logout()" *ngIf="userService.user.token">Logout</a>
-        <a class="waves-effect waves-light btn" (click)="openModal(); register = false" *ngIf="!userService.user.token">Login</a>
-        <a class="waves-effect waves-light btn" (click)="openModal(); register = true" *ngIf="!userService.user.token">Register</a>
+        <a class="waves-effect waves-light btn indigo lighten-1" (click)="logout()" *ngIf="userService.user.token">Logout</a>
+        <a class="waves-effect waves-light btn indigo lighten-1" (click)="openModal(); register = false" *ngIf="!userService.user.token">Login</a>
+        <a class="waves-effect waves-light btn indigo lighten-1" (click)="openModal(); register = true" *ngIf="!userService.user.token">Register</a>
       </ul>
 
       <!--<ul id="nav-mobile" class="side-nav">-->
@@ -41,7 +41,7 @@
             </div>
             <div class="row">
               <div class="input-field col s2 offset-s3">
-                <button class="btn waves-effect waves-light" type="submit" name="action" (click)="checkCredentials()">
+                <button class="btn waves-effect waves-light btn indigo lighten-1" type="submit" name="action" (click)="checkCredentials()">
                   Submit<i class="material-icons right">send</i>
                 </button>
               </div>
@@ -64,16 +64,6 @@
     </div>
   </div>
 </header>
-<p class="red" *ngIf="userService.user.token === ''">
-  prazan
-</p>
-<p class="blue" *ngIf="userService.user.token !== ''">
-  pun <b>{{userService.user.token}}</b>
-</p>
-
-<p class="green" *ngIf="!userService.user.token">
-  null <b>{{userService.user.token}}</b>
-</p>
 <main>
   <div *ngIf="userService.user.token">
     <div class="row flex-s">

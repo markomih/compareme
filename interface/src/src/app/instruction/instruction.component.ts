@@ -61,8 +61,9 @@ export class InstructionComponent implements OnInit {
           if (index > this.userService.user.tables.length) {
             alert("index out of range");
           } else {
-            this.tableService.selectTable(this.userService.user.tables[index-1].id)
-              .then(res=>(res));
+            this.tableService.selectTable(this.userService.user.tables[index - 1].id)
+              .then(res => {
+              });
             isValid = true;
           }
         } else {
@@ -93,12 +94,12 @@ export class InstructionComponent implements OnInit {
         isValid = true;
         let j = 0;
         let ret_json = [];
-        for (let i in this.tableService.table.columns){
-          if (this.tableService.table.classLabel != this.tableService.table.columns[i].label){
-            ret_json.push({'label':this.tableService.table.columns[i].label, 'value':parseInt(parameterArray[j++])})
+        for (let i in this.tableService.table.columns) {
+          if (this.tableService.table.classLabel != this.tableService.table.columns[i].label) {
+            ret_json.push({'label': this.tableService.table.columns[i].label, 'value': parseInt(parameterArray[j++])})
           }
         }
-        this.tableService.predict(ret_json, this.lastClassifier).then(res=>{
+        this.tableService.predict(ret_json, this.lastClassifier).then(res => {
           this.scoreService.setScore(new Score(res, "prediction", this.tableService.table.id));
           // alert('Prediction is: ' + res);
         });

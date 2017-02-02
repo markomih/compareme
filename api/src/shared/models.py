@@ -63,6 +63,6 @@ class Dataset(Model):
     def get_model(dataset: dict):
         dataset = Dataset(dataset['name'],
                           pd.read_json(dataset['columns']),
-                          dataset['pickle'],
+                          Binary(b''),
                           dataset['_id'])
         return dataset
