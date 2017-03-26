@@ -28,3 +28,5 @@
 *.module.js
 *.component.js
 *thesis.pdf
+*chapter*.pdf
+*.aux
