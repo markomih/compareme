@@ -1,9 +1,8 @@
 \thispagestyle {empty}
 \contentsline {chapter}{Uvod}{1}{chapter*.3}
-\contentsline {section}{\numberline {1.1}Sta predtavlja statisti\IeC {\v c}ko u\IeC {\v c}enje?}{1}{section.1.1}
-\contentsline {section}{\numberline {1.2}Primer skupa podataka}{2}{section.1.2}
-\contentsline {section}{\numberline {1.3}Procena ta\IeC {\v c}nosti modela}{2}{section.1.3}
-\contentsline {section}{\numberline {1.4}\IeC {\v S}ta predstavlja klasifikacioni problem?}{2}{section.1.4}
+\contentsline {section}{\numberline {1.1}Primer skupa podataka}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}Procena ta\IeC {\v c}nosti modela}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}\IeC {\v S}ta predstavlja klasifikacioni problem?}{2}{section.1.3}
 \contentsline {chapter}{Klasifikacija}{3}{chapter*.4}
 \contentsline {section}{\numberline {2.1}Short title}{3}{section.2.1}
 \contentsline {chapter}{Arhitektura aplikacije}{9}{chapter*.11}

@@ -12,10 +12,10 @@
 
 
 %********************************** %First Section  **************************************
-\section{Sta predtavlja statističko učenje?}
+% \section{Sta predstavlja statističko učenje?}
 
 Mašinsko učenje je podoblast veštačke intaligencije čiji je cilj konstruisanje
-algoritma i računarskih sistema koji su sposobni da se adaptiraju na nove
+algoritama i računarskih sistema koji su sposobni da se adaptiraju na nove
 situacije i uče na osnovu iskustva. Razvijene su različite tehnike učenja za
 izvršavanje različitih zadataka. Osnovne tehnike se tiču nadgledanog učenja za
 diskreciono donošenje odluka, nadgledanog učenja za kontinuirano predviđanje i
@@ -29,7 +29,7 @@ pojačano učenje za sekvencionalno donošenje odluka, kao i nenadgledano učenj
 % strukturu, ali bez ikakov poznatog izlaza unapred. \\
 
 Većina praktičnih problema koristi oblik nadgedanog mašinskog učenja.
-Ovaj model se može posmatrati primena nekog algoritma nad skupom ulaznih $X$ i
+Ovaj model podrazumeva primenu nekog algoritma nad skupom ulaznih $X$ i
 izlaznih promenljivih $Y$, trening podaci, za učenje mapiranja $Y \ = \ f(X)$.
 Cilj je proceniti parametre funkcije $f$ tako da se ova funkcija može primeniti
 za nove ulazne podatke $X$ za koje ne znamo izlaz $Y$, test podaci. Podela
@@ -41,11 +41,11 @@ nadgledanog učenja:
 \end{itemize}
 
 Nenadgledano učenje za ulazne podatke $X$ modelira strukture podataka ili
-distribuciju podataka bez povratne informacije $Y$. Cil je
+distribuciju podataka bez povratnih informacija $Y$. Cil je
 uočavanje zajedničkih svojstava podataka. Ovaj oblik učenja možemo svrstati:
 \begin{itemize}
   \item Klasterizacija - metod za analizu grupisanja čiji je cilj
-  particionisanje ulznih podataka u $k$ klastera.
+  particionisanje ulznih podataka na $k$ klastera.
   \item Asocijacija - metod za generaisanje pravila koja opisuju podatke.
 \end{itemize}
 
@@ -60,37 +60,31 @@ Primer koji će pratiti algoritam kroz ovaj rad ...
 
 \section{Procena tačnosti modela}
 
-U statistici ne postoji idealan model mašinskog učenje. Nad jednim skupom
-podataka jedan metod može bolje od drugih, dok nad drugim skupom podataka može
-pokazati gore performanse. \\
+U statistici ne postoji univerzalni statistički model koji će pokazati najbolje
+rezultate za sve vrste problema. Nad jednim skupom podataka jedan metod može
+dati bolje rezutltate od drugih, dok nad drugim skupom podataka mogu dominirati
+jednostavniji modeli. \\
 
-Pokušajmo da procenimo $f$ na bazi trening posmatranja
-$\{\left(x_1, \ y_1\right), \ \cdots \ , \ \left(x_n, \ y_n\right)\}$,
-gde su $y_1, \ \cdots \ , y_n$ kvalitativni izlazi. Najjednostavniji način za
-kvantifikovanje tačnosti procene  $\hat{f}$ je stop trening greške, ondost grešaka koje
-su napravljenje ako primenimo stopu greške da procenimo $\hat{f}$ trening posmatranja:
-$1/n \sum_{i=1}^{n} I(y_i \neq \hat{y_i})$ - training error rate. \\
-
-Gde je $\hat{y_i}$ klasa za koju se vrši predikcija za i-to posmatranje
-koristeći $\hat{f}$. I $I(y_i \neq \hat{y_i})$
+Kako bismo uspešno procenili tačnost nekog modela potrebno je da kvanitfikujemo
+tačnost procene funkcije $\hat{f}$. Za skup ulaznih posmatranja
+$\{\left(x_1, \ y_1\right), \ \cdots \ , \ \left(x_n, \ y_n\right)\}$, procenu
+možemo vršiti na osnovu stope trening greške (training error rate):
+\begin{equation}\label{eq:training_error_rate}
+  training \ error \ rate \ = \ 1/n \sum_{i=1}^{n} I_i
+\end{equation}
 \begin{equation}
-    I=
+  I_i=
     \begin{cases}
       1, & \text{if}\ y_i \neq \hat{y_i} \\
       0, & \text{if}\ y_i = \hat{y_i}
     \end{cases}
-  \end{equation}
-% $\begin{cases}
-%   1 & y_i \neq \hat{y_i}  \
-%   0 & y_i = \hat{y_i}  \
-% \end{cases}$.
-Ako je $I\left(y_i \neq \hat{y_i}\right) = 0$, onda je i-to posmatranje
-klasifikovano tačno, ako nije onda je pogrešno klasifikovano. Međutim mi smo
-najviše zaiteresovani za procenu grešaka koje se javljaju kod test podataka, ne
-kod trening podataka. Za procenu stope test greške za posmatranje $\left(x_0, z_0\right)$
-je dato sa $Ave\left(I\left(y_i \neq \hat{y_i}\right)\right)$, gde je $\hat{y_0}$
-predviđanje klase labele koja je rezltat primene klasifajera nad testom $x_0$.
-Dobar klasifajer je onaj za koji je procena stope test grešaka (2.9) malo.
+\end{equation}
+gde je $\hat{y_i}$ klasa za koju se vrši predikcija za i-to posmatranje
+koristeći $\hat{f}$. Međutim nas interesuje procena greške nad test podacima
+(test error rate). Procena test greške za posmatranje $\left(x_0, y_0\right)$
+je data sa $Ave\left(I\left(y_i \neq \hat{y_i}\right)\right)$, gde je $\hat{y_0}$
+predviđanje klase koji je rezltat primene klasifajera nad testom $x_0$.
+Dobar klasifajer je onaj za koji je greške najmanja.
 
 \section{Šta predstavlja klasifikacioni problem?}
 
