@@ -1,0 +1,88 @@
+\section{Logsistička regresija - logistic regression}
+Logistička regresija je algoritam nadgledanog mašinskog učenja koji osim u
+regresiji, svoju primenu nalazi i u klasifikaciji. Spada u linearne modele i
+potiče od algoritma koji se naziva linearna regresija. \\
+
+Funkcija odlučivanja linearne regresije je linearna i ima oblik:
+\begin{equation}
+  y \ = \ \theta_0 + \theta_1 * x_1 + \theta_2 * x_2 + \cdot\cdot\cdot + \theta_n * x_n + \epsilon
+\end{equation}
+gde je $\epsilon$ greška koja ima normalnu raspodelu i predstavlja deviaciju
+dobijene vrednosti u odnosu na izlaz $y$. \\
+
+Jasno je da nam ovakva reprezentacija ne odgovara za klasifikovanje diskretnog
+izlaza. Umesto direktnog predviđanja klase $Y$, logistička regresija modelira
+verovatnoću ($p\left(X\right)$) da $Y$ pripada odgovarajućoj kategoriji.
+Postavljanjem odgovarajuće granice ($threshold$) možemo izvršiti diskitezaciju
+izlaza:
+\begin{equation}
+  Y =
+    \begin{cases}
+      0, & \text{if}\ p\left(x\right) < threshold \\
+      1, & \text{otherwise}\
+    \end{cases}
+\end{equation}
+
+Pitanje kojim želimo da se bavimo, je kako modelirati vezu između
+$p\left(X\right) = \theta_0 + \theta_1 * X$ i $X$? Zbog jednostavnosti problema
+smatraćemo da izlaz ima binarnu vrednost, nula ili jedan. \\
+
+Najjedenostavnije rešenje je korstiti linearnu
+regresiju za predstavljanje verovatnoće:
+\begin{equation} \label{eq:logisitc_regression}
+  p\left(X\right) = \theta_0 + \theta_1*X
+\end{equation}
+
+Problem kod ovakvog predstavljanja je dobijanje vrednosti koja je negativna ili
+veća od jedan za specifične ulaze, verovatnoća mora biti u intervalu $[0, 1]$.
+Kako bismo izbegli ovaj problem, modeliraćemo $p\left(X\right)$ koristeći
+funkciju koja daje izlaz između 0 i 1 za sve vrednosti $X$. Mnoge funkcije
+zadovoljavaju ovu osobinu, u logsitičkoj regresiji koristimo logističku funkciju
+(sigmoid):
+\begin{equation}
+  \sigma\left(x\right)=\frac{e^{t}}{1+e^{t}}
+\end{equation}
+zamenom u funkciji (\ref{eq:logisitc_regression}) dobijamo:
+\begin{equation} \label{eq:p_x_logit}
+  p\left(x\right) = \frac{e^{\theta_0 + \theta_1 * X}}{1 + e^{\theta_0 + \theta_1 * X}}
+\end{equation}
+
+Zbog matematičke pogodnosti verovatnoću možemo predstaviti preko šanse ($odds$):
+\begin{equation}
+  odds = \frac{p\left(x\right)}{1-p\left(x\right)}
+\end{equation}
+primenom ove formule nad (\ref{eq:p_x_logit}) dobijamo:
+\begin{equation}
+  \frac{p\left(x\right)}{1-p\left(x\right)} = e^{\theta_0 + \theta_1 * X}
+\end{equation}
+zatim logaritmovanjem:
+\begin{equation}
+  \log \frac{p\left(x\right)}{1-p\left(x\right)} = \theta_0+ \theta_1*X
+\end{equation}
+Levu stranu nazivamo $logit$ koja je linearna po $X$. \\
+
+Za procenu parametara $\theta_0$ i $\theta_1$ koristimo likelihood funkciju:
+\begin{equation} \label{eq:maximum_likelihood}
+  l\left(\theta_0, \theta_1\right) =
+  \prod_{i:y_i = 1} p\left(x_i\right)
+  \prod_{\hat{i}:\hat{y_i} = 0} \left(1 - p\left(\hat{x_i}\right)\right)
+\end{equation}
+$\theta_0$ i $\theta_1$ se biraju tako da maksimizuju (\ref{eq:maximum_likelihood}). \\
+
+Generalizacijom ovog modela dobijamo multiple logistic regression:
+\begin{equation}
+  \log \frac{p\left(x\right)}{1-p\left(x\right)} = \theta_0+ \theta_1*X_1 + \cdot\cdot\cdot + \theta_p*X_p
+\end{equation}
+gde je $X = (X_1, X_2, \cdot\cdot\cdot, X_p)$, a $p$ redni proj prediktora.
+Ova jednačina se može zapisati kao:
+\begin{equation} \label{eq:logistic_function}
+  p(x) = \frac{e^{\theta_0 + \theta_1 * X_1 + \cdot\cdot\cdot + \theta_p*X_p}}{1 + e^{\theta_0 + \theta_1 * X_1 + \cdot\cdot\cdot + \theta_p*X_p}}
+\end{equation}
+isto kao i u prethodnom primeru, procena $\theta_0, \theta_1, \cdot\cdot\cdot \theta_p$ se vrši
+korišćenjem maximum likelihood funkcije. \\
+
+Nedostatak logistička regresije se javlja kod klasifikovanja odziva koji može da
+ima više od dve klase. Sa ovim modelom se mora pribegavati višestrukim
+korišćenjem binarne klasifikacije (strategija one versus all). Metod koji je
+obrađen u nastavku, discriminant analysis, je pogodniji za multiple-class
+klasifikaciju. \\
