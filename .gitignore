@@ -23,6 +23,9 @@
 *.vscode
 *.log
 *.stackdump
+*thesis.synctex.gz
+*thesis.toc
+*thesis.out
 *.editorconfig
 *.js.map
 *.module.js
